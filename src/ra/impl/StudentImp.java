@@ -1,11 +1,10 @@
 package ra.impl;
 
 import ra.entity.Student;
+import ra.color.Color;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class StudentImp implements Serializable {
     public static List<Student> studentList = new ArrayList<>();
@@ -31,11 +30,14 @@ public class StudentImp implements Serializable {
                     StudentImp.inputData();
                     break;
                 case 2:
+                    StudentImp.calAge();
                     StudentImp.displayData();
                     break;
                 case 3:
+                    StudentImp.rank();
                     break;
                 case 4:
+                    StudentImp.sortedDescAge();
                     break;
                 case 5:
                     break;
@@ -68,9 +70,55 @@ public class StudentImp implements Serializable {
 
     public static void displayData() {
         System.out.println("************************************** Student List **************************************");
-        System.out.printf("%-15s%-25s%-25s%-10s%-15s%-15s%-15s%-15s%-15s%-20s", "Student ID", "Student Name", "Date of Birth", "Age", "Sex", "HTML Score", "CSS Score", "JS Score", "Average Score", "Rank");
+        System.out.printf("%-15s%-25s%-25s%-10s%-15s%-15s%-15s%-15s%-15s%-20s\n", "Student ID", "Student Name", "Date of Birth", "Age", "Sex", "HTML Score", "CSS Score", "JS Score", "Average Score", "Rank");
+        for (Student student : studentList) {
+            student.displayData();
+        }
         System.out.println("******************************************************************************************");
     }
-    // Đọc file demo.txt và in ra các sách có giá trong khoảng 10000 đến 20000
-//    public static void
+
+    // tính tuổi dựa trên ngày tháng năm sinh đã nhập
+    public static void calAge() {
+        for (Student student : studentList) {
+            student.calAge();
+        }
+        System.out.println("Đã hoàn thành tính tuổi!");
+    }
+
+    // tính avgMark và xếp loại tương ứng từng sinh viên
+    public static void rank() {
+        for (Student student : studentList) {
+            student.calAvgMark_Rank();
+        }
+        System.out.println("Đã hoàn thành đánh giá xếp loại!");
+    }
+
+    // sắp xếp sinh viên theo tuổi tăng dần
+    public static void sortedDescAge() {
+        List<Student> studentsDesc = new ArrayList<>(studentList);
+        Collections.sort(studentsDesc, new Comparator<Student>() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                return Integer.compare(o1.getAge(), o2.getAge());
+            }
+        });
+        System.out.println("************************************** Student List **************************************");
+        System.out.printf("%-15s%-25s%-25s%-10s%-15s%-15s%-15s%-15s%-15s%-20s\n", "Student ID", "Student Name", "Date of Birth", "Age", "Sex", "HTML Score", "CSS Score", "JS Score", "Average Score", "Rank");
+        for (Student student : studentsDesc) {
+            student.displayData();
+        }
+        System.out.println("******************************************************************************************");
+    }
+
+    // thống kê sinh viên theo xếp loại
+    public static void rankStats() {
+        if (studentList.isEmpty()) {
+            System.out.println("Không có sinh viên nào trong danh sách.");
+            return;
+        }
+        int count = 0;
+        for (Student student : studentList) {
+            if (student.getRank().equals())
+        }
+    }
 }

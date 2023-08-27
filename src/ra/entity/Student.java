@@ -1,10 +1,13 @@
 package ra.entity;
 
+import ra.color.Color;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -119,43 +122,46 @@ public class Student implements IEntity<Student> {
 
     @Override
     public void inputData(Scanner scanner, List<Student> studentList) {
-        System.out.println("Nhập mã sinh viên: ");
+        System.out.print("Nhập mã sinh viên: ");
         this.studentId = scanner.nextLine();
-        System.out.println("Nhập tên sinh viên: ");
+        System.out.print("Nhập tên sinh viên: ");
         this.studentName = scanner.nextLine();
-        System.out.println("Nhập ngày sinh (trước năm 2005): "); // tính ra tuổi sinh viên
+        System.out.print("Nhập ngày sinh (trước năm 2005): "); // tính ra tuổi sinh viên
         boolean checkBirthday = false;
         do {
             this.birthday = scanner.nextLine();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             try {
                 LocalDate inputDate = LocalDate.parse(this.birthday, formatter);
-                System.out.println("Ngày tháng đã nhập: " + inputDate.getYear());
-                checkBirthday = true;
+//                System.out.println("Ngày tháng đã nhập: " + inputDate.getYear());
+                checkBirthday = false;
             } catch (DateTimeParseException e) {
-                System.err.println("Định dạng ngày tháng không hợp lệ. (dd/MM/yyyy)");
+                System.out.println("Định dạng ngày tháng không hợp lệ. (dd/MM/yyyy)");
             }
         } while (checkBirthday);
-        System.out.println("Nhập giới tính: ");
+        System.out.print("Nhập giới tính: ");
         this.sex = Boolean.parseBoolean(scanner.nextLine());
-        System.out.println("Nhập điểm HTML: ");
+        System.out.print("Nhập điểm HTML: ");
         this.mark_html = Float.parseFloat(scanner.nextLine());
-        System.out.println("Nhập điểm CSS: ");
+        System.out.print("Nhập điểm CSS: ");
         this.mark_css = Float.parseFloat(scanner.nextLine());
-        System.out.println("Nhập điểm JavaScript: ");
+        System.out.print("Nhập điểm JavaScript: ");
         this.mark_js = Float.parseFloat(scanner.nextLine());
     }
 
     @Override
     public void displayData() {
         String displaySex = sex ? "Nam" : "Nữ";
-        System.out.printf("%-15s%-25s%-25s%-10d%-15s%-15.1f%-15.1f%-15.1f%-15.1f%-20s", this.studentId, this.studentName, this.birthday, this.age, displaySex, this.mark_html, this.mark_css, this.mark_js, this.avgMark, this.rank);
+        System.out.printf("%-15s%-25s%-25s%-10d%-15s%-15.1f%-15.1f%-15.1f%-15.1f%-20s\n", this.studentId, this.studentName, this.birthday, this.age, displaySex, this.mark_html, this.mark_css, this.mark_js, this.avgMark, this.rank);
     }
 
     @Override
     public void calAge() {
         // tính tuổi sinh viên từ birthday
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        int currentDate = LocalDate.now().getYear();
+        int birthDate = LocalDate.parse(getBirthday(), formatter).getYear();
+        this.age = currentDate - birthDate;
     }
 
     @Override
