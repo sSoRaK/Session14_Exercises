@@ -40,6 +40,7 @@ public class StudentImp implements Serializable {
                     StudentImp.sortedDescAge();
                     break;
                 case 5:
+                    StudentImp.rankStats();
                     break;
                 case 6:
                     break;
