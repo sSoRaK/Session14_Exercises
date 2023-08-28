@@ -116,9 +116,22 @@ public class StudentImp implements Serializable {
             System.out.println("Không có sinh viên nào trong danh sách.");
             return;
         }
-        int count = 0;
+        List<String> rankList = new ArrayList<>();
+        List<Integer> studentsByRank = new ArrayList<>();
+
         for (Student student : studentList) {
-            if (student.getRank().equals())
+            String studentRank = student.getRank();
+            int index = rankList.indexOf(studentRank);
+            if (index != -1) {
+                studentsByRank.set(index, studentsByRank.get(index) + 1);
+            } else {
+                rankList.add(studentRank);
+                studentsByRank.add(1);
+            }
+        }
+        System.out.println("Thống kê sinh viên theo xếp loại");
+        for (int i = 0; i < rankList.size(); i++) {
+            System.out.printf("%s: %d sinh viên\n", rankList.get(i), studentsByRank.get(i));
         }
     }
 }
