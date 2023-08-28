@@ -123,7 +123,22 @@ public class Student implements IEntity<Student> {
     @Override
     public void inputData(Scanner scanner, List<Student> studentList) {
         System.out.print("Nhập mã sinh viên: ");
-        this.studentId = scanner.nextLine();
+        boolean checkStudentId;
+        do {
+            this.studentId = scanner.nextLine();
+            checkStudentId = uniqueStudentId(studentList);
+            if (checkStudentId) {
+                System.err.println("Mã sinh viên đã tồn tại, vui lòng nhập lại!");
+                checkStudentId = false;
+            } else {
+                if (this.studentId.length() == 4 && this.studentId.charAt(0) == 'S') {
+                    break;
+                } else {
+                    System.err.println("Mã sinh viên bắt đầu bằng 'S', bắt buộc phải 4 ký tự");
+                }
+            }
+        } while (!checkStudentId);
+
         System.out.print("Nhập tên sinh viên: ");
         this.studentName = scanner.nextLine();
         System.out.print("Nhập ngày sinh (trước năm 2005): "); // tính ra tuổi sinh viên
@@ -179,5 +194,14 @@ public class Student implements IEntity<Student> {
         } else {
             this.rank = "Xuất sắc";
         }
+    }
+
+    public boolean uniqueStudentId(List<Student> studentList) {
+        for (Student student : studentList) {
+            if (student.studentId.equals(this.studentId)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
